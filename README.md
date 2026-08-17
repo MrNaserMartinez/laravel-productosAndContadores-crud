@@ -1,67 +1,75 @@
 # Productos + Contadores CRUD — Laravel (Oficina del Agua)
 
 ## 📌 Nombre del proyecto
-<!-- D: ¿Qué aplicación estás utilizando? -->
+Productos CRUD — Laravel (con ejercicio adicional de Contadores)
+
+Aplicación de práctica hecha con Laravel: un CRUD de productos ya provisto como plantilla, y un CRUD de contadores construido por el equipo siguiendo el mismo patrón, como actividad de familiarización con el stack antes del proyecto integrador "Oficina del Agua".
 
 
 ## 🧱 Stack utilizado
-<!-- D: ¿Qué framework y tecnologías utiliza? -->
 - Framework: Laravel
-- Estilo: Bootstrap 5
-- Base de datos: MariaDB
+- Estilo: Bootstrap 5 (vía CDN)
+- Base de datos: MariaDB (vía XAMPP)
+- ORM: Eloquent
+- Plantillas: Blade
 - Despliegue previsto: AWS
 
 
 ## ✅ Requisitos
-<!-- A: ¿Qué necesita una persona para ejecutar el proyecto? -->
-- PHP 8.1 o superior
+- PHP 8.3 o superior (el proyecto no corre con versiones anteriores)
 - Composer
-- MySQL / MariaDB
+- MySQL / MariaDB (por ejemplo, vía XAMPP)
 
 
 ## ⚙️ Instalación
-<!-- A: ¿Cuáles son los pasos para instalar las dependencias? -->
 ```bash
 composer install
 ```
 
+
 ## 🔧 Configuración
-<!-- A: ¿Qué variables de entorno o configuraciones son necesarias? -->
 ```bash
 cp .env.example .env
 php artisan key:generate
 ```
 
+Revisar en `.env` que `DB_PORT` coincida con el puerto real de tu MySQL local. Por defecto es `3306`; si tu MySQL corre en otro puerto (nos pasó, ver sección de Problemas encontrados), ajústalo ahí.
+
 
 ## 🗄️ Base de datos
-<!-- A: ¿Cómo se configura y prepara la base de datos? -->
-```sql
-CREATE DATABASE productos_crud;
-```
+Crear la base de datos vacía desde phpMyAdmin (`http://localhost/phpmyadmin` → **Nueva** → nombre `productos_crud` → **Crear**), y luego correr las migraciones:
+
 ```bash
 php artisan migrate
 ```
 
 
 ## ▶️ Ejecución
-<!-- D: ¿Qué comandos deben ejecutarse para levantar la aplicación? -->
 ```bash
 php artisan serve
 ```
-Luego abrir:
+
+Abrir en el navegador:
 - http://127.0.0.1:8000/productos
 - http://127.0.0.1:8000/contadores
 
 
 ## 🐛 Problemas encontrados
-<!-- Todo el equipo: cada quien anota el suyo -->
--
--
--
+
+**1. "php" y "composer" no se reconocían como comando en la terminal.**
+PHP y Composer estaban instalados (vía XAMPP y el instalador de Composer), pero Windows no sabía dónde buscarlos. Se solucionó agregando la ruta de PHP a las Variables de entorno del sistema (PATH), y reiniciando la terminal para que el cambio se aplicara.
+
+**2. MySQL no arrancaba en XAMPP: "Port 3306 in use".**
+Otro proceso ya estaba usando el puerto 3306 de MySQL en la máquina. Se solucionó cambiando el puerto de MySQL en XAMPP (archivo `my.ini`) a `3307`, y actualizando también `phpMyAdmin/config.inc.php` y el `.env` del proyecto para que apuntaran al nuevo puerto.
+
+**3. `composer install` fallaba con decenas de errores de versión de PHP.**
+El proyecto requiere PHP 8.3 o superior (algunos paquetes internos incluso piden 8.4+), pero el instalador de XAMPP para Windows solo trae hasta PHP 8.0.30. Se solucionó instalando una versión más reciente de PHP por separado (sin desinstalar XAMPP, que se sigue usando para MySQL y phpMyAdmin), y priorizando esa nueva ruta por encima de la de XAMPP en el PATH del sistema.
+
+<!-- Cada integrante: si te pasó algo distinto durante tu instalación, agrégalo aquí siguiendo el mismo formato -->
 
 
 ## 📸 Evidencia — CRUD de Contadores
-<!-- D: capturas de las 4 operaciones -->
+<!-- D: agregar capturas de las 4 operaciones una vez esté listo el CRUD -->
 | Operación | Captura |
 |---|---|
 | Listar   | |
@@ -89,7 +97,7 @@ Luego abrir:
 
 
 **5. Menciona al menos un problema técnico encontrado y cómo se solucionó.**
-<!-- D -->
+<!-- D — se puede apoyar directamente en la sección "Problemas encontrados" de arriba -->
 
 
 **6. ¿Qué aprendieron que les será útil para el proyecto del módulo?**
