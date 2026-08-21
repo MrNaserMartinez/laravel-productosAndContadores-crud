@@ -12,6 +12,7 @@ Aplicación de práctica hecha con Laravel: un CRUD de productos ya provisto com
 - Base de datos: MariaDB (vía XAMPP)
 - ORM: Eloquent
 - Plantillas: Blade
+- Diseño visual: [SB Admin](https://startbootstrap.com/template/sb-admin) (Start Bootstrap, licencia MIT), integrado vía CDN al layout compartido de la aplicación
 - Despliegue previsto: AWS
 
 
@@ -65,6 +66,12 @@ Otro proceso ya estaba usando el puerto 3306 de MySQL en la máquina. Se solucio
 **3. `composer install` fallaba con decenas de errores de versión de PHP.**
 El proyecto requiere PHP 8.3 o superior (algunos paquetes internos incluso piden 8.4+), pero el instalador de XAMPP para Windows solo trae hasta PHP 8.0.30. Se solucionó instalando una versión más reciente de PHP por separado (sin desinstalar XAMPP, que se sigue usando para MySQL y phpMyAdmin), y priorizando esa nueva ruta por encima de la de XAMPP en el PATH del sistema.
 
+**4. El CSS del template SB Admin no cargaba (se veía HTML sin estilos).**
+Al integrar el template SB Admin vía CDN de jsDelivr, la ruta usada (`.../css/styles.css`) devolvía un archivo inexistente, por lo que la página cargaba sin ningún estilo aplicado. Se solucionó verificando la estructura real del paquete npm, que ubica los archivos compilados dentro de una carpeta `dist/` (`.../dist/css/styles.css` y `.../dist/js/scripts.js`), y corrigiendo ambas rutas en el layout.
+
+**5. Error `Route [contadores.index] not defined` al cargar cualquier página.**
+Como el layout (sidebar) es compartido entre Productos y Contadores, al agregar el link a `contadores.index` antes de que existiera esa ruta (aún sin el controlador de Contadores), toda la aplicación —incluyendo Productos— dejó de cargar. Se solucionó envolviendo el link con `Route::has('contadores.index')`, para que solo se genere si la ruta ya existe, evitando el error mientras esa parte del equipo terminaba su avance.
+
 <!-- Cada integrante: si te pasó algo distinto durante tu instalación, agrégalo aquí siguiendo el mismo formato -->
 
 
@@ -93,7 +100,10 @@ El proyecto requiere PHP 8.3 o superior (algunos paquetes internos incluso piden
 
 
 **4. Menciona al menos 3 buenas prácticas investigadas y por qué son importantes.**
-<!-- C -->
+
+- **Directiva `@error` en cada campo del formulario**: en vez de mostrar un mensaje genérico de error, Laravel permite mostrar el mensaje específico de validación justo debajo del campo que falló. Esto mejora la experiencia del usuario porque sabe exactamente qué corregir, sin tener que adivinar.
+- **Helper `old()` para conservar los datos ingresados**: cuando un formulario falla la validación y Laravel regresa a la vista anterior, `old('campo')` recupera lo que el usuario ya había escrito, en vez de dejar el formulario vacío. Evita que la persona tenga que volver a llenar todo desde cero.
+- **Separación de layout con `@extends` y `@yield`/`@section`**: mantener un solo archivo de layout (`layouts/app.blade.php`) del que heredan todas las vistas evita duplicar el HTML del sidebar, navbar y estructura general en cada página. Si se necesita un cambio visual (como el que hicimos al integrar el template SB Admin), se hace en un solo lugar y se aplica a toda la aplicación automáticamente.
 
 
 **5. Menciona al menos un problema técnico encontrado y cómo se solucionó.**
