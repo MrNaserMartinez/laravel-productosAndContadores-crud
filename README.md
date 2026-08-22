@@ -65,17 +65,20 @@ Otro proceso ya estaba usando el puerto 3306 de MySQL en la máquina. Se solucio
 **3. `composer install` fallaba con decenas de errores de versión de PHP.**
 El proyecto requiere PHP 8.3 o superior (algunos paquetes internos incluso piden 8.4+), pero el instalador de XAMPP para Windows solo trae hasta PHP 8.0.30. Se solucionó instalando una versión más reciente de PHP por separado (sin desinstalar XAMPP, que se sigue usando para MySQL y phpMyAdmin), y priorizando esa nueva ruta por encima de la de XAMPP en el PATH del sistema.
 
+**4. Laravel adivinaba mal el plural en español de "Contador".**
+Por defecto, Eloquent asume que el nombre de la tabla es el plural en inglés del modelo (`Contador` → `contadors`), y `Route::resource` hace lo mismo con el nombre del parámetro de la URL (`{contadore}` en vez de `{contador}`). Esto causaba un error `Base table or view not found` al listar, y `Missing required parameter` al editar. Se solucionó agregando `protected $table = 'contadores';` en el modelo, y `->parameters(['contadores' => 'contador'])` en la ruta.
+
 <!-- Cada integrante: si te pasó algo distinto durante tu instalación, agrégalo aquí siguiendo el mismo formato -->
 
 
 ## 📸 Evidencia — CRUD de Contadores
-<!-- D: agregar capturas de las 4 operaciones una vez esté listo el CRUD -->
+
 | Operación | Captura |
 |---|---|
-| Listar   | |
-| Crear    | |
-| Editar   | |
-| Eliminar | |
+| Listar | <img width="1382" height="840" alt="Listado de contadores" src="https://github.com/user-attachments/assets/6080ee91-f42e-4548-9c64-92e2f0cacd48" /> |
+| Crear | <img width="1381" height="759" alt="Formulario para crear un contador" src="https://github.com/user-attachments/assets/93ffdb9a-7fdc-42ff-b401-806c9fcee019" /> |
+| Editar | <img width="1377" height="831" alt="Formulario para editar un contador" src="https://github.com/user-attachments/assets/823fac1d-614b-4d82-a06d-9eda27b5b5ec" /> |
+| Eliminar | <img width="1379" height="846" alt="Confirmación de eliminación de un contador" src="https://github.com/user-attachments/assets/94ebd8ff-f366-446a-9438-2c8d3038ea01" /> |
 
 
 ## 💡 Reflexión técnica
