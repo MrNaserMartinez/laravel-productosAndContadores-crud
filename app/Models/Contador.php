@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contador extends Model
 {
-    use HasFactory;
+    protected $table = 'contadores';
 
     protected $fillable = [
         'numero_contador',
