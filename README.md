@@ -12,6 +12,7 @@ Aplicación de práctica hecha con Laravel: un CRUD de productos ya provisto com
 - Base de datos: MariaDB (vía XAMPP)
 - ORM: Eloquent
 - Plantillas: Blade
+- Diseño visual: [SB Admin](https://startbootstrap.com/template/sb-admin) (Start Bootstrap, licencia MIT), integrado vía CDN al layout compartido de la aplicación
 - Despliegue previsto: AWS
 
 
@@ -96,7 +97,10 @@ Por defecto, Eloquent asume que el nombre de la tabla es el plural en inglés de
 
 
 **4. Menciona al menos 3 buenas prácticas investigadas y por qué son importantes.**
-<!-- C -->
+
+- **Directiva `@error` en cada campo del formulario**: en vez de mostrar un mensaje genérico de error, Laravel permite mostrar el mensaje específico de validación justo debajo del campo que falló. Esto mejora la experiencia del usuario porque sabe exactamente qué corregir, sin tener que adivinar.
+- **Helper `old()` para conservar los datos ingresados**: cuando un formulario falla la validación y Laravel regresa a la vista anterior, `old('campo')` recupera lo que el usuario ya había escrito, en vez de dejar el formulario vacío. Evita que la persona tenga que volver a llenar todo desde cero.
+- **Separación de layout con `@extends` y `@yield`/`@section`**: mantener un solo archivo de layout (`layouts/app.blade.php`) del que heredan todas las vistas evita duplicar el HTML del sidebar, navbar y estructura general en cada página. Si se necesita un cambio visual (como el que hicimos al integrar el template SB Admin), se hace en un solo lugar y se aplica a toda la aplicación automáticamente.
 
 
 **5. Menciona al menos un problema técnico encontrado y cómo se solucionó.**
